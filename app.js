@@ -12,6 +12,12 @@ app.set('view engine', 'hbs')
 // set view path to /views; process.cwd()=>present current working directory
 app.set('views', process.cwd() + '/views')
 
+// set static file root
+app.use('/', express.static('public'))
+
+// set body parser for post message
+app.use('/', express.urlencoded({ extended: true }))
+
 app.get('/', (req, res) => {
   res.render('index')
 })
