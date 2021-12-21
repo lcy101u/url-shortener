@@ -22,8 +22,8 @@ app.get('/', (req, res) => {
   res.render('index')
 })
 app.post('/', (req, res) => {
-  console.log(req.body)
-  
+  const url = req.body.url
+  res.render('index', {url})
 })
 app.listen(PORT, host, () => {
   console.log(`Listening on http://${host}:${PORT}`)
