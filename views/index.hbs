@@ -1,1 +1,29 @@
-<h1>Index</h1>
+<form
+  action="/"
+  method="post"
+  class="url-shorten-form"
+  id="url-shortener-form"
+  novalidate
+>
+  <div class="input-group mb-3">
+    <input
+      type="url"
+      name="url"
+      class="form-control url-input"
+      placeholder="https://example.com"
+      required
+    />
+    <div class="input-group-append">
+      <button
+        class="btn btn-outline-primary url-button"
+        type="submit"
+        id="url-shortener-form-btn"
+      >Shorten</button>
+    </div>
+    <div class="invalid-feedback">
+      Please input valid URL link
+    </div>
+  </div>
+</form>
+
+<script src="/javascripts/URLShortener.js"></script>
