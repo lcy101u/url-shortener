@@ -3,6 +3,8 @@ const URLForm = document.querySelector('#url-shortener-form')
 
 function OnURLFormSubmitted(event) {
   console.log('URL Form submit!')
+  event.preventDefault()
+  event.stopPropagation()
 }
 function OnURLFormBtnClicked(event) {
   URLForm.classList.add('was-validated')
