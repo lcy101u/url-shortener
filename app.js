@@ -4,6 +4,9 @@ const mongoose = require('mongoose')
 const host = 'localhost'
 const PORT = process.env.PORT || 3000
 const app = express()
+const URLModels = require('./models/URLModels')
+const url = require('url')
+const generateURLID = require('./utils/generateURLID')
 
 const MONGODB_URI = process.env.MONGODB_URI || `mongodb://${host}/url-shortener`
 mongoose.connect(MONGODB_URI)
@@ -36,11 +39,24 @@ app.use('/', express.static('public'))
 app.use('/', express.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
-  res.render('index')
+  res.render('index', { result: null })
 })
 app.post('/', (req, res) => {
-  const url = req.body.url
-  res.render('index', {url})
+  //https://nodejs.org/api/url.html#urlformaturl-options
+  const originalURLObject = new URL(req.body.url.trim())
+  const originalURL = url.format(originalURLObject)
+  const shortenURL = generateURLID(5)
+  URLModels.findOne({ originalURL })
+    .lean()
+    .then(data => 
+      data ? data : URLModels.create({ originalURL, shortenURL }))
+    .then(data => {
+      const result = req.headers.origin + '/' + data.shortenURL
+      console.log(result)
+      res.render('index', { originalURL, result})
+    })
+    .catch(err => console.error(err))
+  // res.render('index', {originalURL})
 })
 app.listen(PORT, host, () => {
   console.log(`Listening on http://${host}:${PORT}`)

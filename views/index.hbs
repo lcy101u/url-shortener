@@ -11,7 +11,7 @@
       name="url"
       class="form-control url-input"
       placeholder="https://example.com"
-      value="{{url}}"
+      value="{{originalURL}}"
       required
     />
     <div class="input-group-append">
@@ -26,5 +26,12 @@
     </div>
   </div>
 </form>
+
+{{#if result}}
+  <div class="mt-3 result-message">
+    <p>Shorten URL: <span id="url-message">{{result}}</span></p>
+    <button class="btn btn-outline-success" id="btn-copy">copy</button>
+  </div>
+{{/if}}
 
 <script src="/javascripts/URLShortener.js"></script>

@@ -28,11 +28,17 @@ body {
   .url-shorten-form {
     width: 65%;
   }
+  .result-message {
+    width: 60%;
+  }
 }
 
 @media screen and (min-width: 900px) {
   .url-shorten-form {
     width: 70%;
+  }
+  .result-message {
+    width: 65%;
   }
 }
 
@@ -43,4 +49,23 @@ body {
 
 .url-button {
   border-radius: 0px 50px 50px 0px;
+}
+
+.result-message {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  /* box model */
+  border: 1px solid #30a740;
+  padding: 1%;
+  background-color: rgb(233, 233, 233);
+}
+.result-message p {
+  margin-bottom: 0px;
+}
+
+.result-message #url-message {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
 }
