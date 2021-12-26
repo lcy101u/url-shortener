@@ -22,10 +22,13 @@ function OnURLFormBtnClicked(event) {
 function OncopyBtnClicked() {
   const URLMessage = document.querySelector('#url-message').innerText
   navigator.clipboard.writeText(URLMessage)
+    .then(() => alert('Copied'))
     .then(() => console.log('Async: Copying to clipboard was successful!: ', URLMessage))
     .catch(err => console.error('Async: Could not copy text: ', err))
 }
 
 URLForm.addEventListener('submit', OnURLFormSubmitted)
 URLFormBtn.addEventListener('click', OnURLFormBtnClicked )
-copyBtn.addEventListener('click', OncopyBtnClicked)
+if(copyBtn) {
+  copyBtn.addEventListener('click', OncopyBtnClicked)
+}

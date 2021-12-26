@@ -4,9 +4,9 @@ const mongoose = require('mongoose')
 const host = 'localhost'
 const PORT = process.env.PORT || 3000
 const app = express()
-const URLModels = require('./models/URLModels')
-const url = require('url')
-const generateURLID = require('./utils/generateURLID')
+
+//define app's router. It will automatically find index.js under folder
+const routes = require('./routes')
 
 const MONGODB_URI = process.env.MONGODB_URI || `mongodb://${host}/url-shortener`
 mongoose.connect(MONGODB_URI)
@@ -38,32 +38,9 @@ app.use('/', express.static('public'))
 // set body parser for post message
 app.use('/', express.urlencoded({ extended: true }))
 
-app.get('/', (req, res) => {
-  res.render('index', { result: null })
-})
-app.post('/', (req, res) => {
-  //https://nodejs.org/api/url.html#urlformaturl-options
-  const originalURLObject = new URL(req.body.url.trim())
-  const originalURL = url.format(originalURLObject)
-  const shortenURL = generateURLID(5)
-  URLModels.findOne({ originalURL })
-    .lean()
-    .then(data => 
-      data ? data : URLModels.create({ originalURL, shortenURL }))
-    .then(data => {
-      const result = req.headers.origin + '/' + data.shortenURL
-      console.log(result)
-      res.render('index', { originalURL, result})
-    })
-    .catch(err => console.error(err))
-})
-app.get('/:shortenURL', (req, res) => {
-  const { shortenURL } = req.params
-  URLModels.findOne({shortenURL})
-    .then(data =>
-      data ? res.redirect(data.originalURL) : res.render('error', {errMsg : '  Error URL.'}))
-    .catch(err => console.error(err))
-})
+//bind router to '/'
+app.use('/', routes)
+
 app.listen(PORT, host, () => {
   console.log(`Listening on http://${host}:${PORT}`)
 })
