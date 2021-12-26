@@ -20,10 +20,10 @@ function OnURLFormBtnClicked(event) {
 }
 
 function OncopyBtnClicked() {
-  //Shortened URL
-  const URLMessage = document.querySelector('#url-message')
-  URLMessage.select()
-  document.execCommand('copy')
+  const URLMessage = document.querySelector('#url-message').innerText
+  navigator.clipboard.writeText(URLMessage)
+    .then(() => console.log('Async: Copying to clipboard was successful!: ', URLMessage))
+    .catch(err => console.error('Async: Could not copy text: ', err))
 }
 
 URLForm.addEventListener('submit', OnURLFormSubmitted)

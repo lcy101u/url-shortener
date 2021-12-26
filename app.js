@@ -56,7 +56,13 @@ app.post('/', (req, res) => {
       res.render('index', { originalURL, result})
     })
     .catch(err => console.error(err))
-  // res.render('index', {originalURL})
+})
+app.get('/:shortenURL', (req, res) => {
+  const { shortenURL } = req.params
+  URLModels.findOne({shortenURL})
+    .then(data =>
+      data ? res.redirect(data.originalURL) : res.render('error', {errMsg : '  Error URL.'}))
+    .catch(err => console.error(err))
 })
 app.listen(PORT, host, () => {
   console.log(`Listening on http://${host}:${PORT}`)
